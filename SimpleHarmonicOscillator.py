@@ -11,7 +11,9 @@ from matplotlib import animation
 
 
 class Oscillator:
-    '''Initialises variables amd functions to be used later on'''
+    """
+    Initialises variables and
+    functions to be used later on."""
 
     def __init__(self):
         self.pause = False  # Initialization for later use
@@ -33,9 +35,10 @@ class Oscillator:
         self.KE = 0.5 * (1 - (self.sinusoids[0](self.t))**2)
         self.PE = 0.5 * (self.sinusoids[0](self.t))**2
 
-    """ Plot functions for the widet"""
-
     def PlotAxesMotion(self):
+        """
+        Plot functions for the widet
+        """
         self.ylimit = self.amplitude * 2
         self.data, = self.ax.plot(
             self.t, self.amplitude * np.exp(-self.damp * self.t) * self.func_list[0](self.t + self.phase))
@@ -53,9 +56,9 @@ class Oscillator:
         self.ax.grid(True, lw=2, ls='--', c='.75')
         self.ax1.grid(True, lw=2, ls='--', c='.75')
         self.ax2.grid(True, lw=2, ls='--', c='.75')
-        self.ax.set_ylim(-self.ylimit, self.ylimit)
-        self.ax1.set_ylim(-self.ylimit, self.ylimit)
-        self.ax2.set_ylim(-self.ylimit, self.ylimit)
+        self.ax.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax1.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax2.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
 
     def PlotAxesEnergy(self):
         self.data3, = self.ax3.plot(
@@ -74,9 +77,8 @@ class Oscillator:
         self.ax3.set_xlim(0.125, 0.375)
         self.ax3.set_ylim(0, 0.30)
 
-    """ Clearning axes"""
-
     def ClearAxesMotion(self):
+        """Clearning axes"""
         self.ax.clear()
         self.ax1.clear()
         self.ax2.clear()
@@ -105,6 +107,9 @@ class Oscillator:
                           self.func_list[1]((self.t - 0.05 * animate_time) + self.phase))
             self.ax2.plot(self.t, self.amplitude * np.exp(-self.damp * self.t) *
                           self.func_list[2]((self.t - 0.05 * animate_time) + self.phase))
+            self.ax.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+            self.ax1.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+            self.ax2.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
         return self.ax, self.ax1, self.ax2,
 
     def animateEnergy(self, animate_time):
@@ -124,7 +129,6 @@ class Oscillator:
     def clickCallbackMotion(self, event):
         anim = animation.FuncAnimation(self.fig, self.animateMotion, init_func=self.initMotion,
                                        frames=100, interval=5, blit=True)
-
         self.fig.canvas.draw_idle()
 
     def clickCallbackEnergy(self, event):
@@ -214,6 +218,10 @@ class Oscillator:
         self.sliderHandleAmplitude = widgets.Slider(
             Amplitudeax, 'Amplitude', 1, 5, valinit=self.amplitude)
         self.sliderHandleAmplitude.on_changed(self.SliderCallbackAmplitude)
+        self.ax.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax1.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax2.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        # self.fig.tight_layout()
         self.fig.show()
         plt.show()
 
@@ -233,6 +241,7 @@ class Oscillator:
         self.button = widgets.Button(resetax1, 'Reset')
         self.button.on_clicked(self.resetEnergy)
 
+        # self.fig1.tight_layout()
         self.fig1.show()
         plt.show()
 
@@ -243,7 +252,8 @@ On = Oscillator()
 Font = ("Verdana", 16)
 Font2 = ("Verdana", 12)
 
-""" Tk Widget was inspired by: https://pythonprogramming.net/tkinter-depth-tutorial-making-actual-program/""" 
+""" Tk Widget was inspired by: https://pythonprogramming.net/tkinter-depth-tutorial-making-actual-program/"""
+
 
 class OscillatorApp(tk.Tk):
 
@@ -300,11 +310,11 @@ class Page2(tk.Frame):
         label = tk.Label(self, text="Oscillator Plots",
                          font=Font).pack(pady=10, padx=10)
         label1 = tk.Label(self, text="Position, Velocity, Acceleration",
-                         font=Font2).pack(pady=10, padx=10)
+                          font=Font2).pack(pady=10, padx=10)
         button2 = tk.Button(self, text="SHM characteristics",
                             command=lambda: On.activateOscillatorMotion()).pack()
         label2 = tk.Label(self, text="Energy of Simple Harmonic Oscillator",
-                         font=Font2).pack(pady=10, padx=10)
+                          font=Font2).pack(pady=10, padx=10)
         button3 = tk.Button(self, text="Energy characteristics",
                             command=lambda: On.activateOscillatorEnergy()).pack()
         button4 = tk.Button(self, text="Back",
