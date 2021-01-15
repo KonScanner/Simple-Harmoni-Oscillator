@@ -82,6 +82,9 @@ class Oscillator:
         self.ax.clear()
         self.ax1.clear()
         self.ax2.clear()
+        self.ax.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax1.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
+        self.ax2.set_ylim(-1.5*self.amplitude, 1.5*self.amplitude)
 
     def ClearAxesEnergy(self):
         self.ax3.clear()
